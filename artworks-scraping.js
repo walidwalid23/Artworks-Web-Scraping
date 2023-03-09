@@ -104,15 +104,5 @@ function makeRequest(url) {
 
 
 
-app.get("/trystream", function (req, res) {
-    console.log("here");
-    for (var i = 0; i < 5; i++) {
 
-
-        res.write("welo: " + i);
-
-
-    }
-    res.end();
-})
 
