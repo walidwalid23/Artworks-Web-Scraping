@@ -92,7 +92,12 @@ app.get('/WalidArtworksApi', async function (req, res) {
 function makeRequest(url) {
     return new Promise(function (resolve, reject) {
         // The callback function takes 3 parameters, an error, response status code and the html
-        request(url, function (error, res, html) {
+        request({
+            url: url,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+            }
+        }, function (error, res, html) {
             if (!error && res.statusCode === 200) {
                 resolve(html);
             } else {
