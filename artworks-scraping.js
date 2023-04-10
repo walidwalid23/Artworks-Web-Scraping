@@ -87,7 +87,8 @@ app.get('/WalidArtworksApi', async function (req, res) {
         console.log(maxPrice);
     }
     console.log("search has ended");
-    //end the stream
+    //Don't end the stream manually because this will cancel the connection with the client server only after the first nationality
+    //it will be ended automatically
     //res.end();
 });
 
