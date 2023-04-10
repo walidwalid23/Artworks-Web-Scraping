@@ -60,7 +60,8 @@ app.get('/WalidArtworksApi', async function (req, res) {
                         console.log(artistName_PaintingName_Date)
                         res.write(JSON.stringify({
                             "artworkDetails": artistName_PaintingName_Date,
-                            "artworkImageUrl": artworkImageUrl
+                            "artworkImageUrl": artworkImageUrl,
+                            'maxPrice': maxPrice
                         }) + '\n');
 
                         // add the paintaing to already sent paintings
