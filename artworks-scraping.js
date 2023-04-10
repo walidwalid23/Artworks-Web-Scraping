@@ -86,7 +86,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
     }
     console.log("search has ended");
     //end the stream
-    res.end();
+    //res.end();
 });
 
 
