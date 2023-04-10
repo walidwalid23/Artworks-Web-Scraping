@@ -105,6 +105,8 @@ function makeRequest(url) {
             if (!error && res.statusCode === 200) {
                 resolve(html);
             } else {
+                console.log("Error: " + error)
+                console.log("Status Code: " + res.statusCode)
                 reject(error);
             }
         });
