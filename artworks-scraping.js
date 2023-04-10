@@ -9,6 +9,7 @@ app.listen(PORT, () => {
 });
 
 app.get('/WalidArtworksApi', async function (req, res) {
+    console.log("Artworks Web Scraper Received Request")
     //request query inputs
     let artistNationality = req.query.artistNationality;
     let minPrice = 1;
