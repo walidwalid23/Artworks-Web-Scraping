@@ -1,5 +1,5 @@
 const express = require('express');
-const request = require('request');
+const request = require('requestretry');
 const cheerio = require('cheerio');
 const app = express();
 
@@ -96,7 +96,11 @@ function makeRequest(url) {
             url: url,
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
-            }
+            },
+            // The below parameters are specific to request-retry
+            maxAttempts: 5,   // (default) try 5 times
+            retryDelay: 5000,  // (default) wait for 5s before trying again
+            retryStrategy: request.RetryStrategies.HTTPOrNetworkError // (default) retry on 5xx or network errors
         }, function (error, res, html) {
             if (!error && res.statusCode === 200) {
                 resolve(html);
