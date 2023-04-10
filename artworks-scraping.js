@@ -96,8 +96,6 @@ function makeRequest(url) {
         // The callback function takes 3 parameters, an error, response status code and the html
         // WAIT FOR RANDOM NUMBER OF SECONDS FROM 1 TO 10 SECS BETWEEN EACH REQUEST TO AVOID ANTI SCRAPERS
         setTimeout(() => {
-            console.log("in setTimeOut");
-
             request({
                 url: url,
                 headers: {
