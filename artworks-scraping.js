@@ -12,8 +12,8 @@ app.get('/WalidArtworksApi', async function (req, res) {
     console.log("Artworks Web Scraper Received Request")
     //request query inputs
     let artistNationality = req.query.artistNationality;
-    let minPrice = 1;
-    let maxPrice = 200;
+    let minPrice = 53600;
+    let maxPrice = 53800;
     while (maxPrice <= 60000) {
         // we will loop through all the pages for every min-max pairs (we increment by 200)
         let pageNumber = 1;
