@@ -12,8 +12,8 @@ app.get('/WalidArtworksApi', async function (req, res) {
     console.log("Artworks Web Scraper Received Request")
     //request query inputs
     let artistNationality = req.query.artistNationality;
-    let minPrice = 53600;
-    let maxPrice = 53800;
+    let minPrice = 1;
+    let maxPrice = 200;
     while (maxPrice <= 60000) {
         // we will loop through all the pages for every min-max pairs (we increment by 200)
         let pageNumber = 1;
@@ -95,6 +95,8 @@ function makeRequest(url) {
         // The callback function takes 3 parameters, an error, response status code and the html
         // WAIT FOR RANDOM NUMBER OF SECONDS FROM 1 TO 10 SECS BETWEEN EACH REQUEST TO AVOID ANTI SCRAPERS
         setTimeout(() => {
+            console.log("in setTimeOut");
+
             request({
                 url: url,
                 headers: {
