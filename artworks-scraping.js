@@ -15,7 +15,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
     console.log("Artworks Web Scraper Received Request, Nationality: " + artistNationality)
     let minPrice = 59600;
     let maxPrice = 59800;
-    let isLastImage = false
+    let lastArtwork = null
 
     while (maxPrice <= 60000) {
         // we will loop through all the pages for every min-max pairs (we increment by 200)
@@ -53,6 +53,11 @@ app.get('/WalidArtworksApi', async function (req, res) {
                 // console.log(artworksDiv.html());
                 // the images comes tripled so we must check for duplication
                 var artworksImages = artworksDiv.find('img');
+
+                if (maxPrice == 60000 && isLastPage) {
+                    // get last artwork in the nationality to send it to client server to close connection when it reach it
+                    lastArtwork = artworksImages.last().attr('alt');
+                }
                 // iterate over each artworks image element
                 artworksImages.each(function (index, element) {
                     let artistName_PaintingName_Date = element.attribs.alt;
@@ -60,15 +65,13 @@ app.get('/WalidArtworksApi', async function (req, res) {
 
                     // check for duplication for sending the painting
                     if (!alreadySentPaintings.includes(artistName_PaintingName_Date)) {
-                        if (maxPrice == 60000 && isLastPage && artworksImages.find(element) == artworksImages.children().last()) {
-                            isLastImage = true
-                        }
+
                         // send the stream holding object of painting data here
                         console.log(artistName_PaintingName_Date)
                         res.write(JSON.stringify({
                             "artworkDetails": artistName_PaintingName_Date,
                             "artworkImageUrl": artworkImageUrl,
-                            "isLastImage": isLastImage,
+                            "lastArtwork": lastArtwork,
                             'maxPrice': maxPrice
                         }) + '\n');
 
