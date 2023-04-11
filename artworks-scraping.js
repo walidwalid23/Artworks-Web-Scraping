@@ -15,7 +15,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
     console.log("Artworks Web Scraper Received Request, Nationality: " + artistNationality)
     let minPrice = 59600;
     let maxPrice = 59800;
-    let isLastImage = true
+    let isLastImage = false
 
     while (maxPrice <= 60000) {
         // we will loop through all the pages for every min-max pairs (we increment by 200)
@@ -41,7 +41,6 @@ app.get('/WalidArtworksApi', async function (req, res) {
                 if (!aTagNextClass.html()) {
                     isLastPage = true;
                     console.log("this is the last page");
-                    // if you are at last page in last max price
 
                 }
                 else {
@@ -61,9 +60,9 @@ app.get('/WalidArtworksApi', async function (req, res) {
 
                     // check for duplication for sending the painting
                     if (!alreadySentPaintings.includes(artistName_PaintingName_Date)) {
-                        //if (maxPrice == 60000) {
-                        //  let isLastImage = true
-                        //}
+                        if (maxPrice == 60000 && isLastPage && !element.next) {
+                            isLastImage = true
+                        }
                         // send the stream holding object of painting data here
                         console.log(artistName_PaintingName_Date)
                         res.write(JSON.stringify({
@@ -95,13 +94,14 @@ app.get('/WalidArtworksApi', async function (req, res) {
         console.log(maxPrice);
     }
     req.on("close", function () {
+        //Don't end the stream before client consumes all the stream because this will cancel the connection with the client server only after the first nationality
+        //instead pass a boolean to client server when stream finish and end connection from there
         console.log("client has closed the connection so end the stream");
         res.end();
     });
     console.log("search has ended");
-    //Don't end the stream manually because this will cancel the connection with the client server only after the first nationality
-    //instead pass a bool to client server when it finish and end it from there
-    //
+
+
 });
 
 
