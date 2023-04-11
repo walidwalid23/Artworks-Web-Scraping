@@ -15,6 +15,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
     console.log("Artworks Web Scraper Received Request, Nationality: " + artistNationality)
     let minPrice = 59600;
     let maxPrice = 59800;
+    let isLastImage = false;
     while (maxPrice <= 60000) {
         // we will loop through all the pages for every min-max pairs (we increment by 200)
         let pageNumber = 1;
@@ -39,6 +40,10 @@ app.get('/WalidArtworksApi', async function (req, res) {
                 if (!aTagNextClass.html()) {
                     isLastPage = true;
                     console.log("this is the last page");
+                    // if you are at last page in last max price
+                    if (maxPrice == 60000) {
+                        isLastImage = true
+                    }
                 }
                 else {
                     // if its not the last page increment the pages
@@ -62,6 +67,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
                         res.write(JSON.stringify({
                             "artworkDetails": artistName_PaintingName_Date,
                             "artworkImageUrl": artworkImageUrl,
+                            "isLastImage": isLastImage,
                             'maxPrice': maxPrice
                         }) + '\n');
 
@@ -88,7 +94,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
     }
     console.log("search has ended");
     //Don't end the stream manually because this will cancel the connection with the client server only after the first nationality
-    //it will be ended automatically
+    //instead pass a bool to client server when it finish and end it from there
     //res.end();
 });
 
