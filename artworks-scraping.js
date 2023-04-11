@@ -54,13 +54,13 @@ app.get('/WalidArtworksApi', async function (req, res) {
                 // the images comes tripled so we must check for duplication
                 var artworksImages = artworksDiv.find('img');
                 // iterate over each artworks image element
-                artworksImages.each(function (i, element) {
+                artworksImages.each(function (index, element) {
                     let artistName_PaintingName_Date = element.attribs.alt;
                     let artworkImageUrl = element.attribs.src;
 
                     // check for duplication for sending the painting
                     if (!alreadySentPaintings.includes(artistName_PaintingName_Date)) {
-                        if (maxPrice == 60000 && isLastPage && element == artworksImages.last) {
+                        if (maxPrice == 60000 && isLastPage && (index + 1) == artworksImages.length) {
                             isLastImage = true
                         }
                         // send the stream holding object of painting data here
