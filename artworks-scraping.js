@@ -60,7 +60,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
 
                     // check for duplication for sending the painting
                     if (!alreadySentPaintings.includes(artistName_PaintingName_Date)) {
-                        if (maxPrice == 60000 && isLastPage && element == artworksImages.children().last()) {
+                        if (maxPrice == 60000 && isLastPage && artworksImages.find(element) == artworksImages.children().last()) {
                             isLastImage = true
                         }
                         // send the stream holding object of painting data here
