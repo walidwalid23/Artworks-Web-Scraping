@@ -60,7 +60,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
 
                     // check for duplication for sending the painting
                     if (!alreadySentPaintings.includes(artistName_PaintingName_Date)) {
-                        if (maxPrice == 60000 && isLastPage && !element.next) {
+                        if (maxPrice == 60000 && isLastPage && element == artworksImages.last) {
                             isLastImage = true
                         }
                         // send the stream holding object of painting data here
@@ -94,8 +94,11 @@ app.get('/WalidArtworksApi', async function (req, res) {
         console.log(maxPrice);
     }
     req.on("close", function () {
-        //Don't end the stream before client consumes all the stream because this will cancel the connection with the client server only after the first nationality
-        //instead pass a boolean to client server when stream finish and end connection from there
+        // THE PROBLEM IS THAT THE WEB SCRAPER IS FASTER THAN THE PROCESSING CLIENT SERVER SO IT FINISHES THEN ENDS THE STREAM
+        // BEFORE THE CLIENT SERVER CONSUME ALL THE STREAM THEN IT WAIT FOR TIME OUT THEN CLOSES CONNECTION AND GIVE ERROR ON
+        // CLIENT SERVER SIDE
+        // Don't end the stream before client consumes all the stream because this will cancel the connection with the client server only after the first nationality
+        // instead pass a boolean to client server when stream finish and end connection from there
         console.log("client has closed the connection so end the stream");
         res.end();
     });
