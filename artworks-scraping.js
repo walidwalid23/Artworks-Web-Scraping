@@ -95,7 +95,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
         console.log(maxPrice);
     }
     req.on("close", function () {
-        print("client has closed the connection so end the stream");
+        console.log("client has closed the connection so end the stream");
         res.end();
     });
     console.log("search has ended");
