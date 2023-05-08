@@ -3,7 +3,7 @@ const request = require('requestretry');
 const cheerio = require('cheerio');
 const app = express();
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("Server Listening at port: " + PORT);
 });
@@ -11,11 +11,40 @@ app.listen(PORT, () => {
 app.get('/WalidArtworksApi', async function (req, res) {
 
     //request query inputs
-    let artistNationality = req.query.artistNationality;
-    console.log("Artworks Web Scraper Received Request, Nationality: " + artistNationality)
+    let artist_nationalities = req.query.artistNationality;
+    let materials_terms = req.query.materials_terms;
+    let major_periods = req.query.major_periods;
+    console.log("Artworks Web Scraper Received Request, Nationality: " + artist_nationalities)
     let minPrice = 1;
     let maxPrice = 200;
     let lastArtwork = null
+
+    let queries = ''
+    let queriesCount = 0
+
+    if (artist_nationalities) {
+        queries += 'artist_nationalities%5B0%5D=' + artist_nationalities
+        queriesCount += 1
+    }
+
+    if (materials_terms) {
+        if (queriesCount > 0) {
+            queries += "&"
+        }
+        queries += 'materials_terms%5B0%5D=' + materials_terms
+        queriesCount += 1
+    }
+
+    if (major_periods) {
+        if (queriesCount > 0) {
+            queries += "&"
+        }
+        queries += 'major_periods%5B0%5D=' + major_periods
+        queriesCount += 1
+    }
+
+
+
 
     while (maxPrice <= 60000) {
         // we will loop through all the pages for every min-max pairs (we increment by 200)
@@ -27,8 +56,9 @@ app.get('/WalidArtworksApi', async function (req, res) {
             let alreadySentPaintings = [];
             //URL
             let url = "https://www.artsy.net/collection/painting?page=" + pageNumber +
-                "&artist_nationalities%5B0%5D=" + artistNationality + "&price_range=" + minPrice + "-" + maxPrice;
+                "&" + queries + "&price_range=" + minPrice + "-" + maxPrice;
             // we had to turn the call back to async/await cause otherwise the loop will keep going before the reponse come
+            console.log(url)
             try {
                 let requestedHtml = await makeRequest(url);
                 // Next, we'll utilize the cheerio library on the returned html which will essentially give us jQuery functionality
