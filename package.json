@@ -4,7 +4,8 @@
   "description": "",
   "main": "artworks-scraping.js",
   "scripts": {
-    "start": "nodemon artworks-scraping.js"
+    "start": "node artworks-scraping.js",
+    "dev": "nodemon artworks-scraping.js"
   },
   "author": "",
   "license": "ISC",
