@@ -14,7 +14,7 @@ app.get('/WalidArtworksApi', async function (req, res) {
     let artist_nationalities = req.query.artistNationality;
     let materials_terms = req.query.materials_terms;
     let major_periods = req.query.major_periods;
-    console.log("Artworks Web Scraper Received Request, Nationality: " + artist_nationalities)
+    console.log("Artworks Web Scraper Received Request")
     let minPrice = 1;
     let maxPrice = 200;
     let lastArtwork = null
